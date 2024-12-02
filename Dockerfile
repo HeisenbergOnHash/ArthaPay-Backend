@@ -40,11 +40,11 @@ ENV DEBUG=False
 ENV THREADS=5
 
 # # Set environment variables for the DB configuration (can be overridden at runtime)
-# ENV DB_HOST=fintech.chuu2oaa26rh.ap-south-1.rds.amazonaws.com
-# ENV DB_USER=Admin
-# ENV DB_PASSWORD=KUyGJmGio2s6
-# ENV DB_PORT=3306
-# ENV DB_NAME=SoTruePay
+ENV DB_HOST=lendenpay-do-user-17718491-0.i.db.ondigitalocean.com
+ENV DB_USER=doadmin
+ENV DB_PASSWORD=AVNS_Qj1z32_UDHU2TofXBV3
+ENV DB_PORT=25060
+ENV DB_NAME=defaultdb
 
 # Run the application with Waitress using the specified host, port, and thread count
 CMD ["python3", "runner.py"]
