@@ -1,4 +1,4 @@
-import random,json,bcrypt
+import random,json,bcrypt, logging
 from http import HTTPStatus
 from app.utils.Database.queries import *
 from app.utils.Database.connection import MySQLDatabase

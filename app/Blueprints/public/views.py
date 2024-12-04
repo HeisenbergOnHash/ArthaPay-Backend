@@ -16,4 +16,7 @@ def refresh_token():
     response = jsonify({"msg": "Token refreshed"})
     set_access_cookies(response, new_access_token)
     return response , 200
- 
+
+@public_blueprint.route('/callback', methods=['GET'])
+def callback():
+    return jsonify(message="callback recieved"), 200

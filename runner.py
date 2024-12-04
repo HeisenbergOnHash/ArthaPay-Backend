@@ -20,7 +20,6 @@ if __name__ == '__main__':
     logging.info(f"Starting server in {'debug' if debug_mode else 'production'} mode with {threads} threads.")
 
     try:
-        
         if debug_mode:app.run(host=host, port=port, debug=True)
         else:serve(app, host=host, port=port, threads=threads)
 

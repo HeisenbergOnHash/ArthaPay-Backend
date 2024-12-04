@@ -22,7 +22,7 @@ class AdminRoutes:
         if request.args.get('phone_number'):
           msg, code = backend.fetch_admin(request.args.get('phone_number'))
           return jsonify(msg), code
-        else:return jsonify({"Message": "Phone number not found"}), 404
+        else:return jsonify({"Message": "Phone number not found in the Request"}), 404
 
       elif request.method == 'POST':
         if request.json.get('username') and request.json.get('password'):

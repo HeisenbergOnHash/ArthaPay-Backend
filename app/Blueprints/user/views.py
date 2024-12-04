@@ -21,7 +21,7 @@ class UserRoutes:
           if request.args.get('phone_number'):
             msg, code = backend.fetch_user(request.args.get('phone_number'))
             return jsonify(msg), code
-          else:return jsonify({"Message": "Phone number not found"}), HTTPStatus.NOT_FOUND
+          else:return jsonify({"Message": "Phone number not found in the request"}), HTTPStatus.NOT_FOUND
 
         elif request.method == 'POST':
           if request.json.get('username') and request.json.get('password'):
