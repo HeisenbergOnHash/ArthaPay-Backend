@@ -25,3 +25,18 @@ authenticate_user_query = """
     FROM user_demographics 
     WHERE username = %s
 """
+
+# Query to get the user payout wallet balance by their username
+fetch_user_balance = """
+    SELECT wallet.imps_balance
+    FROM wallet
+    JOIN user_demographics ON wallet.user_id = user_demographics.user_id
+    WHERE user_demographics.username = %s;
+"""
+
+# transaction_authorizer Query 
+transaction_authorizer_query ="""
+    SELECT kyc_status, t_pin
+    FROM user_demographics
+    WHERE username = %s;
+"""

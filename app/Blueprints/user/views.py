@@ -21,7 +21,7 @@ class UserRoutes:
           if request.args.get('phone_number'):
             msg, code = backend.fetch_user(request.args.get('phone_number'))
             return jsonify(msg), code
-          else:return jsonify({"Message": "Phone number not found in the request"}), HTTPStatus.NOT_FOUND
+          else:return jsonify({"Message": "Phone number Not Found in the Params"}), HTTPStatus.NOT_FOUND
 
         elif request.method == 'POST':
           if request.json.get('username') and request.json.get('password'):
@@ -50,3 +50,21 @@ class UserRoutes:
         return response, HTTPStatus.OK
       except Exception as e:
         return jsonify({"msg": "Logout failed", "error": str(e)}), HTTPStatus.INTERNAL_SERVER_ERROR
+
+    @staticmethod
+    @user_blueprint.route('/fetch_wallet', methods=['GET'])
+    @jwt_required()
+    def fetch_wallet():
+      if request.args.get('username'):
+        msg, code = backend.fetch_wallet_balance(request.args.get('username'))
+        if code:return jsonify(msg), code
+      else:return jsonify({"Message": "username Not Found in the Params"}), HTTPStatus.NOT_FOUND
+
+    @staticmethod
+    @user_blueprint.route('/do_transaction', methods=['POST'])
+    @jwt_required()
+    def do_transaction():
+        if not request.get_json():
+            return jsonify({"errorMsg": "Please Provide Valid Data"}), HTTPStatus.BAD_REQUEST
+        responseMsg, code = backend.Do_Transaction(data=request.get_json())
+        return jsonify(responseMsg), code

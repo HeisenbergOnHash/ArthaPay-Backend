@@ -25,7 +25,7 @@ class Database_config:
     "user": os.getenv('DB_USER')            if os.getenv('DB_USER')     else "doadmin",
     "password": os.getenv('DB_PASSWORD')    if os.getenv('DB_PASSWORD') else "AVNS_Qj1z32_UDHU2TofXBV3",
     "port": int(os.getenv('DB_PORT'))       if os.getenv('DB_PORT')     else 25060,
-    "database": os.getenv('DB_NAME')        if os.getenv('DB_NAME')     else "defaultdb"}
+    "database": os.getenv('DB_NAME')        if os.getenv('DB_NAME')     else "default_db"}
 
 class PathConfig:
     """Class to manage allowed and excluded paths."""
