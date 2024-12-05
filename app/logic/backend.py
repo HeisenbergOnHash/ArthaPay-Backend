@@ -2,7 +2,7 @@ import random,json,bcrypt, logging
 from http import HTTPStatus
 from app.utils.Database.queries import *
 from app.utils.Database.connection import MySQLDatabase
-# from app.services.neobiz import neobiz_payments
+from app.utils.services.ruaanya import ruaanyafintech
 
 class backend:
   def fetch_admin(data):
@@ -33,11 +33,25 @@ class backend:
   def transaction_authorizer(data):
     results = MySQLDatabase.fetch_results(transaction_authorizer_query, (data.get('username'),))
     if results.get("data"):
-      if results['data'][0]['kyc_status'] != "Verified":return False,"Transaction Rights are On Hold"
-      if int(results['data'][0]['t_pin']) != int(data.get('t_pin')):return False,"Incorrect Transaction Pin"
-      else:return True, "Authorized"
-    else:return False, "Error Fetching the Data to Authorize Transaction"
+      if results['data'][0]['kyc_status'] != "Verified":return False, {"message": "Transaction Rights are On Hold"}
+      if int(results['data'][0]['t_pin']) != int(data.get('t_pin')):return False,{"message": "Incorrect Transaction Pin"}
+      else:return True, {"message":"Authorized"}
+    else:return False, {"message":"Error Fetching the Data to Authorize Transaction"}
 
+  def insert_transaction_request(data):
+    required_fields = ['username', 'beneficiary_name', 'bank_account', 'ifsc', 'amount', 'transfer_id','status']
+    data['status'] = 'processing';missing_fields = [field for field in required_fields if data.get(field) is None]
+    if missing_fields:return False, {"message": f"Missing Fields: {', '.join(missing_fields)}, Transaction Aborted"}
+    data_tuple = tuple(data[field] for field in required_fields)
+    results = MySQLDatabase.execute_query(insert_transaction_request_query, data_tuple)
+    if results.get('status') == HTTPStatus.OK:return True, {"message": "Transaction request inserted"}
+    else:return False, {"message": "Failed to insert transaction request"}
+  
   def Do_Transaction(data):
+    data = dict(data) # Remove this when method changed to POST
     status, story = backend.transaction_authorizer(data)
     if not status:return story, HTTPStatus.OK
+    status, story = backend.insert_transaction_request(data)
+    if not status:return story, HTTPStatus.OK
+    response, code = ruaanyafintech(data, "vGfp4vTJJzoBu8oDV8TYmnOQUWMPWF")
+    return response, code

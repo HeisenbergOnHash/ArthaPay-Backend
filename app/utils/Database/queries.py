@@ -40,3 +40,11 @@ transaction_authorizer_query ="""
     FROM user_demographics
     WHERE username = %s;
 """
+
+# Query to insert a new transaction request into the transactions table
+insert_transaction_request_query= """
+    INSERT INTO transactions (
+        username, beneficiary_name, bank_account, 
+        ifsc, amount, transfer_id, status) 
+    VALUES (%s, %s, %s, %s, %s, %s, %s);
+"""

@@ -25,7 +25,7 @@ def get_system_details():
 
     # Return as a Python dictionary
     system_details = {
-        "public_ip": public_ip,
+        "server_ip": public_ip,
         "current_time_ist": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
         "cpu_info": {
             "physical_cores": cpu_count,

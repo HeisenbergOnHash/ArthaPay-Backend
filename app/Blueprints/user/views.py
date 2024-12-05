@@ -61,10 +61,9 @@ class UserRoutes:
       else:return jsonify({"Message": "username Not Found in the Params"}), HTTPStatus.NOT_FOUND
 
     @staticmethod
-    @user_blueprint.route('/do_transaction', methods=['POST'])
+    @user_blueprint.route('/do_transaction', methods=['GET'])
     @jwt_required()
     def do_transaction():
-        if not request.get_json():
-            return jsonify({"errorMsg": "Please Provide Valid Data"}), HTTPStatus.BAD_REQUEST
-        responseMsg, code = backend.Do_Transaction(data=request.get_json())
+      if request.args:
+        responseMsg, code = backend.Do_Transaction(data=request.args)
         return jsonify(responseMsg), code
