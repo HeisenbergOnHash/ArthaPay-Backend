@@ -14,7 +14,7 @@ if __name__ == '__main__':
 
     host = os.getenv('HOST', '0.0.0.0')
     port = int(os.getenv('PORT', 8080))
-    debug_mode = True #os.getenv('DEBUG', 'False').lower() == 'true'
+    debug_mode = os.getenv('DEBUG', 'False').lower() == 'true'
     threads = os.getenv('THREADS', 4)
 
     logging.info(f"Starting server in {'debug' if debug_mode else 'production'} mode with {threads} threads.")
