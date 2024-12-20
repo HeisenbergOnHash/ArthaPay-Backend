@@ -65,5 +65,5 @@ class UserRoutes:
     @jwt_required()
     def do_transaction():
       if request.args:
-        responseMsg, code = backend.Do_Transaction(data=request.args)
+        responseMsg, code = backend.Do_Transaction(data = request.args.to_dict())
         return jsonify(responseMsg), code

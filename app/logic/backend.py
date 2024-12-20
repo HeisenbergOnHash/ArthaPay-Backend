@@ -1,8 +1,9 @@
-import random,json,bcrypt, logging
 from http import HTTPStatus
+import random,json,bcrypt, logging
 from app.utils.Database.queries import *
-from app.utils.Database.connection import MySQLDatabase
 from app.utils.services.ruaanya import ruaanyafintech
+from app.utils.Database.connection import MySQLDatabase
+
 
 class backend:
   def fetch_admin(data):
@@ -48,7 +49,6 @@ class backend:
     else:return False, {"message": "Failed to insert transaction request"}
   
   def Do_Transaction(data):
-    data = dict(data) # Remove this when method changed to POST
     status, story = backend.transaction_authorizer(data)
     if not status:return story, HTTPStatus.OK
     status, story = backend.insert_transaction_request(data)
