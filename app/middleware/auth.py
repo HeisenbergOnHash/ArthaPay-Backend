@@ -8,10 +8,10 @@ from flask_jwt_extended import verify_jwt_in_request, get_jwt_identity, get_jwt,
 def Before_Request_middleware():
     if request.path not in PathConfig.before_paths:
         try:
-            verify_jwt_in_request()
+            if not verify_jwt_in_request():return jsonify({"msg": "Authentication Required"}), HTTPStatus.UNAUTHORIZED
             current_user, claims = get_jwt_identity(), get_jwt()
             if "user" in request.path and claims.get('role') == "user":pass  
-            elif "admin" in request.path and claims.get('role') == "admin":pass 
+            elif "admin" in request.path and claims.get('role') == "admin":pass
             else:# Log unauthorized access attempt
                 logging.warning(f"Unauthorized role access attempt by '{current_user}'. Path: {request.path}")
                 return jsonify({"msg": "Unauthorized to Access"}), HTTPStatus.FORBIDDEN

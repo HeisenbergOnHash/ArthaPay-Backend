@@ -10,7 +10,7 @@ def ruaanyafintech(payload, token):
           "amount"    :   payload.get("amount"),
           "name"      :   payload.get("beneficiary_name"),
           "account"   :   payload.get("bank_account"),
-          "ifsc"      :   payload.get("ifsc"),
+          "ifsc": re.sub(r'[a-z]', lambda match: match.group(0).upper(), payload.get("ifsc")),
           "mode"      :   "IMPS"
           }
 
