@@ -21,11 +21,18 @@ class Config:
 
 class Database_config:
     db_config = {
-    "host": os.getenv('DB_HOST')            if os.getenv('DB_HOST')     else "lendenpay-do-user-17718491-0.i.db.ondigitalocean.com",
-    "user": os.getenv('DB_USER')            if os.getenv('DB_USER')     else "doadmin",
-    "password": os.getenv('DB_PASSWORD')    if os.getenv('DB_PASSWORD') else "AVNS_Qj1z32_UDHU2TofXBV3",
-    "port": int(os.getenv('DB_PORT'))       if os.getenv('DB_PORT')     else 25060,
-    "database": os.getenv('DB_NAME')        if os.getenv('DB_NAME')     else "default_db"}
+    "host": os.getenv('DB_HOST')            
+    "user": os.getenv('DB_USER')            
+    "password": os.getenv('DB_PASSWORD')    
+    "port": int(os.getenv('DB_PORT'))       
+    "database": os.getenv('DB_NAME')
+    }
+
+# if os.getenv('DB_HOST')     else "suvidha-do-user-17718491-0.d.db.ondigitalocean.com",
+# if os.getenv('DB_USER')     else "doadmin",
+# if os.getenv('DB_PASSWORD') else 0
+# if os.getenv('DB_PORT')     else 25060,
+# if os.getenv('DB_NAME')     else "suvidha"}
 
 class PathConfig:
     """Class to manage allowed and excluded paths."""

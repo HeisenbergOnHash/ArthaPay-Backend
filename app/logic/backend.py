@@ -40,8 +40,8 @@ class backend:
     else:return False, {"message":"Error Fetching the Data to Authorize Transaction"}
 
   def insert_transaction_request(data):
-    required_fields = ['username', 'beneficiary_name', 'bank_account', 'ifsc', 'amount', 'transfer_id','status']
-    data['status'] = 'processing';missing_fields = [field for field in required_fields if data.get(field) is None]
+    required_fields = ['username', 'beneficiary_name', 'bank_account', 'ifsc', 'amount', 'transaction_id']
+    missing_fields = [field for field in required_fields if data.get(field) is None]
     if missing_fields:return False, {"message": f"Missing Fields: {', '.join(missing_fields)}, Transaction Aborted"}
     data_tuple = tuple(data[field] for field in required_fields)
     results = MySQLDatabase.execute_query(insert_transaction_request_query, data_tuple)
@@ -54,4 +54,8 @@ class backend:
     status, story = backend.insert_transaction_request(data)
     if not status:return story, HTTPStatus.OK
     response, code = ruaanyafintech(data, "fJ7gImG2iBJESQPC2Ucf6oBp2bO9TN")
-    return response, code
+    if code == HTTPStatus.OK and response['status'] == 'pending' or response['status'] == 'success':
+      return {"messsage":response}, code # add messasge and update status to pending from processing respectivly , UTR 
+    else:
+      results = MySQLDatabase.execute_query(update_transaction_status_query, ("FAILED", data['transaction_id']))
+      return response, code

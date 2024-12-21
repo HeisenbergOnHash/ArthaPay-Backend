@@ -45,6 +45,13 @@ transaction_authorizer_query ="""
 insert_transaction_request_query= """
     INSERT INTO transactions (
         username, beneficiary_name, bank_account, 
-        ifsc, amount, transfer_id, status) 
-    VALUES (%s, %s, %s, %s, %s, %s, %s);
+        ifsc, amount, transaction_id) 
+    VALUES (%s, %s, %s, %s, %s, %s);
+"""
+
+# update_transaction_status Query
+update_transaction_status_query = """
+    UPDATE transactions
+    SET transaction_status = %s
+    WHERE transaction_id = %s;
 """

@@ -6,7 +6,7 @@ def ruaanyafintech(payload, token):
 
   data = {
           "token"     :   token,
-          "apitxnid"  :   payload.get("transfer_id"),
+          "apitxnid"  :   payload.get("transaction_id"),
           "amount"    :   payload.get("amount"),
           "name"      :   payload.get("beneficiary_name"),
           "account"   :   payload.get("bank_account"),
@@ -16,17 +16,11 @@ def ruaanyafintech(payload, token):
 
   try:
     response = requests.post(url, json=data)
-    
-    logging.info(f"Response status code: {response.status_code}")
-    logging.info(f"Response content: {response.text}")
+    logging.info(f"Response status code: {response.status_code}, Response content: {response.text}")
 
-    if response.status_code == HTTPStatus.OK:
-        logging.info("YO YO Honey Singerr")
-        return {"message": "Yo Yo Honey Sing"}, HTTPStatus.OK
-    else:
-        logging.error(f"Request failed with status code: {response.status_code}")
-        return {"message": "Failed to process the request"}, response.status_code
+    if response.status_code == HTTPStatus.OK:return response.json(), HTTPStatus.OK
+    else:return response.json(), response.status_code
 
   except requests.exceptions.RequestException as e:
     logging.error(f"An error occurred during the request: {e}")
-    return {"message": "Error occurred during the request"}, HTTPStatus.INTERNAL_SERVER_ERROR
+    return {"status": "Error occurred during the request to service provider" }, HTTPStatus.INTERNAL_SERVER_ERROR

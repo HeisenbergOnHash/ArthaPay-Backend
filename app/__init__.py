@@ -24,9 +24,9 @@ def create_app(config_class):
     def apply_access_token(response):
         return After_Request_middleware(response)
 
-    @app.errorhandler(Exception) # Log errors and critical issues only
-    def handle_exception(e):
-        return jsonify({"msg": "An error occurred contact admin..."}), 500
+    # @app.errorhandler(Exception) # Log errors and critical issues only
+    # def handle_exception(e):
+    #     return jsonify({"msg": "An error occurred contact admin..."}), 500
     
     @app.errorhandler(404) # 404 Error handler for not found URLs
     def page_not_found(e):
